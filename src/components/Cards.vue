@@ -67,7 +67,7 @@ onMounted(() => {
   <div v-if="!isLoading">
     <div class="timeline-container" v-if="posts.length">
       <Card v-for="post in posts" :key="post.id" :post="post" />
-      <Observer v-if="posts.length" @intersect="fetchNextPosts" />
+      <Observer v-if="posts.length" @intersect="fetchNextPosts()" />
     </div>
     <div class="timeline-container" v-else>
       <h2>Follow other users to see their posts</h2>
@@ -83,7 +83,6 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 0;
 }
 .spinner {
   height: 90vh;

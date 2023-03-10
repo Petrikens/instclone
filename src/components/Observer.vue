@@ -12,6 +12,7 @@ const emits = defineEmits(["intersect"]);
 
 onMounted(() => {
   observer.value = new IntersectionObserver(([entry]) => {
+    console.log("sdfsdfsdf");
     if (entry && entry.isIntersecting) {
       emits("intersect");
     }
@@ -21,4 +22,9 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.observer {
+  width: 1px;
+  height: 1px;
+}
+</style>
