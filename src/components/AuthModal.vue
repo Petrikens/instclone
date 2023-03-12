@@ -2,6 +2,8 @@
 import { ref, defineProps, reactive } from "vue";
 import { useUserStore } from "../stores/users";
 import { storeToRefs } from "pinia";
+import { LoginOutlined } from "@ant-design/icons-vue";
+import { UserAddOutlined } from "@ant-design/icons-vue";
 
 const userStore = useUserStore();
 
@@ -57,7 +59,11 @@ const title = props.isLogin ? "Login" : "Signup";
 
 <template>
   <div>
-    <AButton type="primary" @click="showModal" class="btn">{{ title }}</AButton>
+    <AButton class="nav-button" type="text" @click="showModal">
+      <template v-if="props.isLogin" #icon><LoginOutlined /></template>
+      <template v-else #icon><UserAddOutlined /></template>
+      {{ title }}</AButton
+    >
     <AModal v-model:visible="visible" :title="title" @ok="handleOk">
       <template #footer>
         <AButton key="back" @click="handleCancel">Cancel</AButton>
@@ -118,5 +124,9 @@ const title = props.isLogin ? "Login" : "Signup";
   align-items: center;
   justify-content: center;
   height: 120px;
+}
+.nav-button {
+  margin-bottom: 20px;
+  font-size: 16px;
 }
 </style>

@@ -1,9 +1,11 @@
 <template>
   <div class="suggestion">
-    <div class="suggestion_avatarr">
+    <div class="suggestion_avatar" @click="goToUsersProfile()">
       <AAvatar src="https://joeschmoe.io/api/v1/random" />
     </div>
-    <div class="suggestion_username">{{ suggestion.username }}</div>
+    <div class="suggestion_username" @click="goToUsersProfile()">
+      {{ suggestion.username }}
+    </div>
     <AButton v-if="!isFollow" type="link" @click="followUser()">Follow</AButton>
     <AButton v-else type="link" @click="unfollowUser()">Following</AButton>
   </div>
@@ -14,11 +16,14 @@ import { defineProps, ref } from "vue";
 import { useUserStore } from "../stores/users";
 import { storeToRefs } from "pinia";
 import { supabase } from "../supabase";
+import { useRouter } from "vue-router";
 
 const props = defineProps(["suggestion"]);
 const userStore = useUserStore();
 
 const { user } = storeToRefs(userStore);
+
+const router = useRouter();
 
 const isFollow = ref(false);
 
@@ -48,6 +53,10 @@ const unfollowUser = async () => {
     console.log(error);
   }
 };
+
+const goToUsersProfile = () => {
+  router.push(`/profile/${props.suggestion.username}`);
+};
 </script>
 
 <style scoped>
@@ -57,7 +66,11 @@ const unfollowUser = async () => {
   align-items: center;
   padding: 5px 0;
 }
+.suggestion_avatar {
+  cursor: pointer;
+}
 .suggestion_username {
   font-weight: 600;
+  cursor: pointer;
 }
 </style>

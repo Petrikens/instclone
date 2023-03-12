@@ -7,13 +7,14 @@ const { VITE_BASE_PHOTO_URL } = import.meta.env;
 </script>
 
 <template>
-  <div class="image-gallary-container">
+  <div v-if="props.posts.length > 0" class="image-gallary-container">
     <img
       v-for="post in props.posts"
       :key="post.id"
       :src="`${VITE_BASE_PHOTO_URL}${post.url}`"
     />
   </div>
+  <div v-else class="image-gallary-container">No posts loaded yet</div>
 </template>
 
 <style scoped>
