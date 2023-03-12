@@ -8,11 +8,19 @@ const { VITE_BASE_PHOTO_URL } = import.meta.env;
 
 <template>
   <div v-if="props.posts.length > 0" class="image-gallary-container">
-    <img
+    <!-- <img
       v-for="post in props.posts"
       :key="post.id"
       :src="`${VITE_BASE_PHOTO_URL}${post.url}`"
-    />
+    /> -->
+    <div
+      v-for="post in props.posts"
+      :key="post.id"
+      class="image"
+      :style="{
+        backgroundImage: 'url(' + VITE_BASE_PHOTO_URL + post.url + ')',
+      }"
+    ></div>
   </div>
   <div v-else class="image-gallary-container">No posts loaded yet</div>
 </template>
@@ -25,9 +33,10 @@ const { VITE_BASE_PHOTO_URL } = import.meta.env;
   gap: 10px;
 }
 
-img {
+.image {
   margin: 5px;
   width: 293px;
   height: 293px;
+  background-size: cover;
 }
 </style>
