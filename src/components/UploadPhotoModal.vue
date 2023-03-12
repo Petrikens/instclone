@@ -3,6 +3,7 @@ import { ref, defineProps } from "vue";
 import { supabase } from "../supabase";
 import { useUserStore } from "../stores/users";
 import { storeToRefs } from "pinia";
+import { PlusOutlined } from "@ant-design/icons-vue";
 
 const userStore = useUserStore();
 
@@ -59,7 +60,11 @@ const handleUploadChange = (e) => {
 
 <template>
   <div>
-    <AButton @click="showModal">Upload Photo</AButton>
+    <AButton v-if="addNewPost" @click="showModal">Upload Photo</AButton>
+    <AButton v-else @click="showModal" type="text" class="nav-button">
+      <template #icon><PlusOutlined /></template>
+      Create</AButton
+    >
     <AModal v-model:visible="visible" title="Upload Photo" @ok="handleOk">
       <div v-if="!loading">
         <input
@@ -92,5 +97,10 @@ input {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.nav-button {
+  margin-bottom: 20px;
+  font-size: 16px;
 }
 </style>

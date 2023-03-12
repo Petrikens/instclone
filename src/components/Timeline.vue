@@ -29,7 +29,7 @@ const { user, loadingUser } = storeToRefs(userStore);
 <style scoped>
 .wrapper {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   margin-top: 20px;
 }
 .spinner {

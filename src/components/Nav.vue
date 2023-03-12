@@ -1,88 +1,107 @@
 <script setup>
-import {RouterLink, useRouter} from "vue-router"
-import Container from "./Container.vue"
-import AuthModal from "./AuthModal.vue"
-import {useUserStore} from "../stores/users"
-import {ref} from "vue"
-import { storeToRefs } from "pinia"
+import { RouterLink, useRouter } from "vue-router";
+import AuthModal from "./AuthModal.vue";
+import { useUserStore } from "../stores/users";
+import { ref } from "vue";
+import { storeToRefs } from "pinia";
+import { LogoutOutlined } from "@ant-design/icons-vue";
+import { UserOutlined } from "@ant-design/icons-vue";
+import { HomeOutlined } from "@ant-design/icons-vue";
+import UploadPhotoModal from "./UploadPhotoModal.vue";
 
-const userStore = useUserStore()
+const userStore = useUserStore();
 
-const {user, loadingUser} = storeToRefs(userStore)
-const router = useRouter()
-const searchUsername = ref("")
+const { user, loadingUser } = storeToRefs(userStore);
+const router = useRouter();
+const searchUsername = ref("");
 
 const onSearch = () => {
-    if(searchUsername.value){
-        router.push(`/profile/${searchUsername.value}`);
-        searchUsername.value = ""
-    }
-}
+  if (searchUsername.value) {
+    router.push(`/profile/${searchUsername.value}`);
+    searchUsername.value = "";
+  }
+};
 
 const handleLogout = async () => {
-    await userStore.handleLogout()
-}
+  await userStore.handleLogout();
+};
 
 const goToUsersProfile = () => {
-    console.log(user)
-    router.push(`/profile/${user.value.username}`)
-}
+  router.push(`/profile/${user.value.username}`);
+};
+
+const goToHomePage = () => {
+  router.push(`/`);
+};
 </script>
 
 <template>
-    <ALayoutHeader>
-        <Container>
-            <div class="nav-container">
-                <div class="right-content">
-                    <RouterLink to="/">Instagram</RouterLink>
-                    <AInputSearch
-                        v-model:value="searchUsername"
-                        placeholder="username..."
-                        style="width: 200px"
-                        @search="onSearch"
-                    />
-                </div>
-                <div class="content" v-if="!loadingUser">
-                    <div class="left-content" v-if="!user">
-                        <AuthModal :isLogin="false"/>
-                        <AuthModal :isLogin="true"/>
-                    </div>
-                    <div class="left-content" v-else>
-                        <AButton type="primary" @click="goToUsersProfile">Profile</AButton>
-                        <AButton type="primary" @click="handleLogout">Logout</AButton>
-                    </div> 
-                </div>
-            </div>
-        </Container>
-    </ALayoutHeader>
+  <div class="nav-container">
+    <RouterLink to="/">Instagram</RouterLink>
+    <AButton class="nav-button" type="text" @click="goToHomePage">
+      <template #icon><HomeOutlined /></template>
+      Home</AButton
+    >
+    <AInputSearch
+      class="search-input"
+      v-model:value="searchUsername"
+      placeholder="username..."
+      style="width: 200px"
+      @search="onSearch"
+    />
+    <div v-if="!loadingUser">
+      <div class="button-content" v-if="!user">
+        <AuthModal class="nav-button" :isLogin="false" />
+        <AuthModal class="nav-button" :isLogin="true" />
+      </div>
+      <div class="button-content" v-else>
+        <AButton class="nav-button" type="text" @click="goToUsersProfile">
+          <template #icon><UserOutlined /></template>
+
+          Profile</AButton
+        >
+        <UploadPhotoModal />
+        <AButton class="nav-button" type="text" @click="handleLogout">
+          <template #icon><LogoutOutlined /></template>
+          Logout</AButton
+        >
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
 .nav-container {
-    display: flex;
-    justify-content: space-between;
+  position: sticky;
+  width: 15vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  border-right: 1px solid #cccccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.content {
-    display: flex;
-    align-items: center;
+.nav-container a {
+  margin-top: 20px;
+  margin-bottom: 40px;
+  color: black;
+  font-size: 20px;
 }
 
-.right-content {
-    display: flex;
-    align-items: center;
+.nav-container .search-input {
+  margin-bottom: 20px;
 }
 
-.right-content a {
-    margin-right: 10px;
+.button-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 }
 
-.left-content {
-    display: flex;
-    align-items: center;
-}
-
-.left-content button {
-    margin-left: 10px;
+.nav-button {
+  margin-bottom: 20px;
+  font-size: 16px;
 }
 </style>

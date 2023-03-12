@@ -1,22 +1,25 @@
 <script setup>
-import {onMounted} from "vue"
-import Nav from "./components/Nav.vue"
-import {RouterView} from "vue-router"
-import {useUserStore} from "./stores/users"
+import { onMounted } from "vue";
+import Nav from "./components/Nav.vue";
+import { RouterView } from "vue-router";
+import { useUserStore } from "./stores/users";
 
-const userStore = useUserStore()
+const userStore = useUserStore();
 
 onMounted(() => {
-  userStore.getUser()
-})
+  userStore.getUser();
+});
 </script>
 
 <template>
-  <main>
+  <main class="main_wrapper">
     <Nav />
     <RouterView />
   </main>
 </template>
 
 <style scoped>
+.main_wrapper {
+  display: flex;
+}
 </style>

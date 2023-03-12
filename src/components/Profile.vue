@@ -131,6 +131,8 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   padding: 20px 0;
+  width: 1000px;
+  margin: 0 auto;
 }
 
 .spinner {
